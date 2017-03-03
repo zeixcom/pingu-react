@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import { Provider } from 'react-redux';
@@ -11,6 +12,7 @@ import { defaultState } from './defaultState';
 // eslint-disable-next-line no-unused-vars
 import css from './assets/style.scss';
 
+const browserHistory = createBrowserHistory();
 const store = createStoreWithMiddleware(browserHistory, defaultState);
 const history = syncHistoryWithStore(browserHistory, store);
 
