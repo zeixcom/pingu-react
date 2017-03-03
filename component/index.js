@@ -45,22 +45,6 @@ module.exports = class PinguComponentGenerator extends Generator {
       this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.test.js`),
       { proper: changeCase.pascal(this.name) }
     );
-
-
-    // if (!this.createFiles) {
-    //   return;
-    // }
-
-    // const files = [
-    //   'default-state.js',
-    //   'index.js',
-    //   'reducers.js',
-    //   'store.js',
-    //   'assets/styles.scss',
-    //   'sagas/root.js',
-    // ];
-
-    // files.map(file => this.fs.copyTpl(this.templatePath(file), this.destinationPath(`src/${file}`)));
   }
 
   end() {
