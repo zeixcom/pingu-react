@@ -1,0 +1,21 @@
+{
+  "name": "generator-pingu",
+  "version": "0.1.0-alpha",
+  "description": "Pingu - Zeix React Yeoman Generator",
+  "files": [
+    "app",
+    "component",
+    "container",
+    "redux",
+    "service"
+  ],
+  "main": "index.js",
+  "author": "Robert Vogt <robert@smartive.ch>",
+  "license": "MIT",
+  "repository": "zeixcom/pingu",
+  "dependencies": {
+    "change-case": "^3.0.1",
+    "command-exists": "^1.2.2",
+    "yeoman-generator": "^1.1.0"
+  }
+}
