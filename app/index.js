@@ -1,5 +1,5 @@
 const Generator = require('yeoman-generator');
-const path = require('path');
+const commandExists = require('command-exists');
 
 module.exports = class PinguGenerator extends Generator {
   prompting() {
@@ -27,20 +27,34 @@ module.exports = class PinguGenerator extends Generator {
       return;
     }
 
-    this.yarnInstall([
+    const done = this.async();
+
+    const deps = [
       'babel-polyfill',
       'redux',
       'react-redux',
       'react-router-dom@next',
       'react-router-redux',
       'redux-saga',
-    ]);
+    ];
 
-    this.yarnInstall([
+    const devDeps = [
       'node-sass',
       'react-test-renderer',
       'sass-loader',
-    ], { dev: true })
+    ];
+
+    commandExists('yarn', (err, exists) => {
+      if (exists) {
+        this.yarnInstall(deps);
+        this.yarnInstall(devDeps, { dev: true });
+        done();
+      } else {
+        this.npmInstall(deps);
+        this.npmInstall(devDeps, { dev: true });
+        done();
+      }
+    });
   }
 
   writing() {
