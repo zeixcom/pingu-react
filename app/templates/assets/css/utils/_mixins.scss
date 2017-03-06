@@ -1,0 +1,182 @@
+// -----------------------------------------------------------------------------
+// #MIXINS
+// -----------------------------------------------------------------------------
+
+/**
+ * Some nice mixins we can use to make our lives easier. Feel free to add as
+ * many as you like!
+ */
+
+/**
+ * Event Wrapper
+ */
+@mixin on-event($self: false) {
+  @if $self {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
+    }
+  } @else {
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
+    }
+  }
+}
+
+
+/**
+ * Create a fully formed type style (sizing and vertical rhythm) by passing in a
+ * single value, e.g.:
+ *
+   `@include font-size(10px);`
+ *
+ */
+// @mixin font-size($font-size, $line-height: true) {
+//   font-size: $font-size;
+//   font-size: ($font-size / $base--font-size) * 1rem;
+
+//   @if $line-height == true {
+//     line-height: ceil($font-size / $base--line-height) * ($base--line-height / $font-size);
+//   }
+// }
+
+
+/**
+ * Helps to center the content vertically, using css transform
+ * @author Samuel Tschümperlin
+ * @param  {string}  $position: relative  - the choosen positioning of the element, standard: relative
+ */
+@mixin vertical-align($position: relative) {
+  @include transform(translateY(-50%)); // this comes from bourbon library, see more http://bourbon.io/docs/#transform
+
+  position: $position;
+  top: 50%;
+}
+
+/**
+ * Helps to center the content in any way, only with position absolute
+ * @param  {string}   $axis: "both" - y, x or both
+ */
+@mixin center($axis: "both") {
+  position: absolute;
+  @if $axis == "y" {
+    @include transform(translateY(-50%)); // this comes from bourbon library, see more http://bourbon.io/docs/#transform
+
+    top: 50%;
+  } @else if $axis == "x" {
+    @include transform(translateX(-50%)) // this comes from bourbon library, see more http://bourbon.io/docs/#transform
+
+    left: 50%;
+
+    transform: translateX(-50%);
+  } @else if $axis == "both" {
+    @include transform(translate(-50%,-50%)); // this comes from bourbon library, see more http://bourbon.io/docs/#transform
+
+    top: 50%;
+    left: 50%;
+  }
+}
+
+/**
+ * Rgba mixin for tint the color of text or background
+ * @param  {string} $type       - color or bg
+ * @param  {string} $color      - hex color code
+ * @param  {float} $percentage - percentage of transparency
+ */
+@mixin rgba($type, $color, $percentage) {
+  @if $type == color {
+    color: tint($color, $percentage);
+    color: rgba($color, $percentage);
+  }
+  @if $type == bg {
+    background-color: tint($color, $percentage);
+    background-color: rgba($color, $percentage);
+  }
+}
+
+/**
+ * Font size mixin
+ *
+ * Usage:
+ * p {
+ *  @include font-size($p-fontSize);
+ * }
+ */
+@mixin font-size($fs-map, $fs-breakpoints: $breakpoints) {
+  @each $fs-breakpoint, $fs-font-size in $fs-map {
+    @if $fs-breakpoint == null {
+      @include make-font-size($fs-font-size);
+    }
+    @else {
+      // If $fs-font-size is a key that exists in
+      // $fs-breakpoints, use the value
+      @if map-has-key($fs-breakpoints, $fs-breakpoint) {
+        $fs-breakpoint: map-get($fs-breakpoints, $fs-breakpoint);
+      }
+      @media screen and (min-width: $fs-breakpoint) {
+        @include make-font-size($fs-font-size);
+      }
+    }
+  }
+}
+
+/**
+ * Utility function for mixin font-size
+ */
+@mixin make-font-size($fs-font-size) {
+  // If $fs-font-size is a list, include
+  // both font-size and line-height
+  @if type-of($fs-font-size) == "list" {
+    font-size: px-to-rem(nth($fs-font-size, 1));
+    @if (length($fs-font-size) > 1) {
+      line-height: nth($fs-font-size, 2);
+    }
+  }
+  @else {
+    font-size: $fs-font-size;
+  }
+}
+
+/**
+ * themify mixin, with light and dark color in a theme and fallback color
+ * $attr - attribute which needs the color
+ * $type - null would be light, anything else is dark
+ * $fallback - override with a fallback
+ */
+@mixin themify($attr, $type: null, $fallback: null) {
+  // include all themes
+  @each $theme, $colorLight, $colorDark in $themes {
+    .#{$theme} & {
+      @if $fallback == null {
+        @if $type == null {
+          #{$attr}: $colorLight;
+        } @else {
+          #{$attr}: $colorDark;
+        }
+      } @else if {
+        #{$attr}: $fallback;
+      }
+    }
+  }
+}
+
+/**
+ * Mixin for svg background-image with png fallback
+ * @param  {string} $url-svg    - url to svg file or data-uri
+ * @param  {string} $url-png    - url to png file or data-uri
+ * @param  {string} $bg-color   - hex color code
+ * @param  {string} $pos-top    - top position of bg image
+ * @param  {string} $pos-right  - right position of bg image
+ * @param  {string} $repeat     - repeat of bg image, default no-repeat
+ */
+@mixin svg-background($url-svg, $url-png, $bg-color: transparent, $pos-top: 0, $pos-right: 0, $repeat: no-repeat) {
+  background: url($url-png);
+  background: url($url-svg), linear-gradient(transparent, transparent);
+  background-color: $bg-color, $bg-color;
+  background-position: $pos-top $pos-right, 0 0;
+  background-repeat: $repeat, no-repeat;
+}

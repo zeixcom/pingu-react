@@ -1,0 +1,121 @@
+// -----------------------------------------------------------------------------
+//  #FUNCTIONS
+// -----------------------------------------------------------------------------
+
+/**
+ * Some nice functions we can use to make our lives easier. Feel free to add as
+ * many as you like!
+ */
+
+/**
+ * Native `url(..)` function wrapper
+ * @param {String} $base - base URL for the asset
+ * @param {String} $type - asset type folder (e.g. `fonts/`)
+ * @param {String} $path - asset path
+ * @return {url}
+ */
+@function asset($base, $type, $path) {
+  @return url($base ) $type + $path;;
+}
+
+/**
+ * Returns URL to an image based on its path
+ * @param {String} $path - image path
+ * @param {String} $base [$base-url] - base URL
+ * @return {Url}
+ */
+@function image($path, $base: $base-url) {
+  @return asset($base, "images/", $path);
+}
+
+/**
+ * Returns URL to a font based on its path
+ * @param {String} $path - font path
+ * @param {String} $base [$base-url] - base URL
+ *  @return {Url}
+ */
+@function font($path, $base: $base-url) {
+  @return asset($base, "fonts/", $path);
+}
+
+/**
+ * Strip the unit from a number (e.g. 18px --> 18).
+ */
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+/**
+ * Basic maths on numbers.
+ */
+@function halve($number) {
+  @return round($number / 2);
+}
+
+@function double($number) {
+  @return round($number * 2);
+}
+
+/**
+ * Tint the color with transparency
+ * @param  {string} $color      - hex color code
+ * @param  {float} $percentage - percentage of transparency
+ */
+@function tint($color, $percentage) {
+  @if $percentage == 0.1 {
+    @return lighten($color, 45%);
+  }
+  @if $percentage == 0.2 {
+    @return lighten($color, 40%);
+  }
+  @if $percentage == 0.3 {
+    @return lighten($color, 35%);
+  }
+  @if $percentage == 0.4 {
+    @return lighten($color, 30%);
+  }
+  @if $percentage == 0.5 {
+    @return lighten($color, 25%);
+  }
+  @if $percentage == 0.6 {
+    @return lighten($color, 20%);
+  }
+  @if $percentage == 0.7 {
+    @return lighten($color, 15%);
+  }
+  @if $percentage == 0.8 {
+    @return lighten($color, 10%);
+  }
+  @if $percentage == 0.9 {
+    @return lighten($color, 5%);
+  }
+}
+
+/**
+ * Get the zindex value of the zindex map
+ */
+@function zindex($layer) {
+  @return map-get($zIndex, $layer);
+}
+
+/**
+ * helper functions
+ */
+@function px-to-em($px, $ref: $font-size--base) {
+  @return to-em(to-px($px) / to-px($ref));
+}
+@function px-to-rem($px) {
+  @return to-rem(to-px($px) / to-px($font-size--base));
+}
+@function to-em($val) {
+  @return ($val + 0);
+}
+@function to-rem($val) {
+  @return ($val + 0rem);
+}
+@function to-px($val) {
+  @return ($val + 0);
+}
+@function px-to-lh($px, $font-size: $font-size--base) {
+  @return (strip-units($px) / strip-units($font-size));
+}
