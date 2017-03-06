@@ -1,5 +1,5 @@
-# Pingu
-Pingu - Zeix React Yeoman Generator
+# Pingu-react
+pingu-react - Zeix React
 
 ## Getting started
 Disclaimer: This will change as soon as a more or less stable version has been achieved.
