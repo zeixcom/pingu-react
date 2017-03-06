@@ -48,17 +48,24 @@ module.exports = class PinguReduxGenerator extends Generator {
     });
 
     let lastImportDeclaration = null;
+    let lastObjectProperty = null;
     let firstElAfterImports = false;
-    let insertedProperty = false;
+    let firstElAfterProperties = false;
 
     const isFirstAfterImports = path => (
+      lastImportDeclaration !== null &&
+      !firstElAfterImports &&
       !t.isImportDeclaration(path.node) &&
       !t.isImportSpecifier(path.node) &&
-      lastImportDeclaration !== null &&
       !t.isImportDeclaration(path.parent) &&
       !t.isImportSpecifier(path.parent) &&
-      !t.isImportDefaultSpecifier(path.parent) &&
-      !firstElAfterImports
+      !t.isImportDefaultSpecifier(path.parent)
+    );
+
+    const isFirstAfterProperties = path => (
+      lastObjectProperty !== null &&
+      !firstElAfterProperties &&
+      !t.isIdentifier(path.node)
     );
 
     const insertImport = () => (
@@ -68,11 +75,23 @@ module.exports = class PinguReduxGenerator extends Generator {
       )
     );
 
+    const insertProperty = () => (
+      t.objectProperty(
+        t.identifier(reducerKey),
+        t.identifier(`${camelCase}Reducer`)
+      )
+    );
+
     traverse(ast, {
       enter(path) {
         if (isFirstAfterImports(path)) {
           lastImportDeclaration.insertAfter(insertImport());
           firstElAfterImports = true;
+        }
+
+        if (isFirstAfterProperties(path)) {
+          lastObjectProperty.insertAfter(insertProperty());
+          firstElAfterProperties = true;
         }
       },
 
@@ -81,16 +100,7 @@ module.exports = class PinguReduxGenerator extends Generator {
       },
 
       ObjectProperty(path) {
-        if (!insertedProperty) {
-          path.insertAfter(
-            t.objectProperty(
-              t.identifier(reducerKey),
-              t.identifier(`${camelCase}Reducer`)
-            )
-          );
-
-          insertedProperty = true;
-        }
+        lastObjectProperty = path;
       }
     });
 
