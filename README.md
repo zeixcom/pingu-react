@@ -1,5 +1,5 @@
 # Pingu-react
-pingu-react - Zeix React
+Package for extending https://github.com/facebookincubator/create-react-app
 
 ## Getting started
 Disclaimer: This will change as soon as a more or less stable version has been achieved.
