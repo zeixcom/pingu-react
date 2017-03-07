@@ -31,6 +31,7 @@ module.exports = class PinguGenerator extends Generator {
 
     const deps = [
       'babel-polyfill',
+      'immutable',
       'redux',
       'react-redux',
       'react-router-dom@next',
@@ -67,7 +68,7 @@ module.exports = class PinguGenerator extends Generator {
       'index.js',
       'reducers.js',
       'store.js',
-      'assets/styles.scss',
+      'assets/css/styles.scss',
       'sagas/root.js',
     ];
 

@@ -1,0 +1,63 @@
+// -----------------------------------------------------------------------------
+// #VARIABLES
+// -----------------------------------------------------------------------------
+
+/**
+ * Generic, non-specific variables.
+ */
+
+/**
+ * Breakpoint sizes
+ */
+$view-s-min: 512px; // phone min
+$view-m-min: 768px; // tablet min
+$view-l-min: 1024px; // small desktop min
+$view-xl-min: 1256px; // desktop min
+$view-xxl-min: 1536px; // large desktop min
+
+$view-xs-max: ($view-s-min - 1px); // phone max potrait
+$view-s-max: ($view-m-min - 1px); // phone max (landscape)
+$view-m-max: ($view-l-min - 1px); // tablet max
+$view-l-max: ($view-xl-min - 1px); // small desktop max
+$view-xl-max: ($view-xxl-min - 1px); // desktop max
+
+// breakpoints map
+$breakpoints: (
+  xs: 0,
+  s:  $view-s-min,
+  m:  $view-m-min,
+  l:  $view-l-min,
+  xl: $view-xl-min,
+  xxl: $view-xxl-min
+);
+
+/**
+ * Container's maximum width
+ * @type {length}
+ */
+$container--max-width: 1188px !default;
+
+/**
+ * Base spacing units - for boxes (horizontal and vertical)
+ */
+$spacing-unit--base: 24px;
+$spacing-unit--half: $spacing-unit--base / 2; // 12px
+$spacing-unit--quarter: $spacing-unit--base / 4; // 6px
+$spacing-unit--double: $spacing-unit--base * 2; // 48px
+$spacing-unit--tripple: $spacing-unit--base * 3; // 72px
+
+/**
+ * Paragraph spacing units - vertical only (optical)
+ */
+$spacing-paragraph--base: $spacing-unit--half; // 12px
+$spacing-paragraph--half: $spacing-paragraph--base / 2; // 6px
+$spacing-paragraph--double: $spacing-unit--base + $spacing-unit--quarter; // 30px
+$spacing-paragraph--tripple: $spacing-unit--double + $spacing-unit--quarter; // 54px
+
+/**
+ * Relative or absolute URL where all assets are served from
+ * @type {String}
+ *  @example scss - When using a CDN
+ *    $base-url: 'http://cdn.example.com/assets/';
+ */
+$base-url: "assets/";

@@ -1,0 +1,22 @@
+// -----------------------------------------------------------------------------
+// #GRID
+// -----------------------------------------------------------------------------
+
+$susy: (
+  //debug: (image: show),
+  columns: 12,
+  gutters: 0.9412,
+  gutter-position: split,
+  container: $container--max-width
+);
+
+.container {
+  @include layout($susy);
+  @include container;
+}
+
+// Wrapper for the containers, inside of the layout we need 'after' instead of 'split'
+.container__wrapper {
+  @include full;
+  @include layout(after);
+}

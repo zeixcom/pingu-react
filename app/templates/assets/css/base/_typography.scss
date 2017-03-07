@@ -1,0 +1,28 @@
+// -----------------------------------------------------------------------------
+// #TYPOGRAPHY
+// -----------------------------------------------------------------------------
+
+/**
+ * Fonts, Font-weights and Margin for headings, paragraphs etc are to defined in this file.
+ */
+html {
+  font-family: $font-family--base;
+  font-size: $font-size--base;
+  font-size: $font-size--base / 16px * 100%;
+  line-height: $line-height--base;
+}
+
+h1 {
+  font-family: $font-family--medium;
+  font-size: $font-size--h1;
+}
+
+h2 {
+  font-family: $font-family--medium;
+  font-size: $font-size--h2;
+}
+
+h3 {
+  font-family: $font-family--medium;
+  font-size: $font-size--h3;
+}
