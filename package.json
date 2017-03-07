@@ -14,6 +14,10 @@
   "license": "MIT",
   "repository": "zeixcom/pingu",
   "dependencies": {
+    "babel-generator": "^6.23.0",
+    "babel-traverse": "^6.23.1",
+    "babel-types": "^6.23.0",
+    "babylon": "^6.16.1",
     "change-case": "^3.0.1",
     "command-exists": "^1.2.2",
     "yeoman-generator": "^1.1.0"
