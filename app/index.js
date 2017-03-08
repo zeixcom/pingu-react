@@ -32,6 +32,7 @@ module.exports = class PinguGenerator extends Generator {
     const deps = [
       'babel-polyfill',
       'immutable',
+      'history',
       'lodash',
       'redux',
       'react-redux',
@@ -41,6 +42,11 @@ module.exports = class PinguGenerator extends Generator {
     ];
 
     const devDeps = [
+      'eslint@^3.15.0',
+      'eslint-config-airbnb@^14.1.0',
+      'eslint-plugin-jsx-a11y@^4.0.0',
+      'eslint-plugin-import@^2.2.0',
+      'eslint-plugin-react@^6.9.0',
       'node-sass',
       'react-test-renderer',
       'sass-loader',
@@ -65,15 +71,16 @@ module.exports = class PinguGenerator extends Generator {
     }
 
     const files = [
-      'default-state.js',
-      'index.js',
-      'reducers.js',
-      'store.js',
-      'assets/css/styles.scss',
-      'sagas/root.js',
+      'src/default-state.js',
+      'src/index.js',
+      'src/reducers.js',
+      'src/store.js',
+      'src/assets/css/styles.scss',
+      'src/sagas/root.js',
+      '.eslintrc.json',
     ];
 
-    files.map(file => this.fs.copyTpl(this.templatePath(file), this.destinationPath(`src/${file}`)));
+    files.map(file => this.fs.copyTpl(this.templatePath(file), this.destinationPath(`${file}`)));
   }
 
   end() {
