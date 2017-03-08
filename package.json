@@ -2,6 +2,9 @@
   "name": "generator-pingu-react",
   "version": "0.1.0-alpha",
   "description": "Pingu React - Zeix React Yeoman Generator",
+  "keywords": [
+    "yeoman-generator"
+  ],
   "files": [
     "app",
     "component",
