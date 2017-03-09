@@ -2,6 +2,24 @@ const Generator = require('yeoman-generator');
 const commandExists = require('command-exists');
 
 module.exports = class PinguGenerator extends Generator {
+  _rewriteWebpackConfig() {
+    const webpackConfig = this.fs.readJson('config/webpack.config.dev.js');
+
+    const sassLoader = {
+      test: /\.(scss|sass)$/,
+      include: paths.appSrc,
+      loaders: ['style', 'css', 'sass']
+    };
+    // const styleLintPlugin = {
+    //   new require('stylelint-webpack-plugin')()
+    // };
+
+    webpackConfig.loaders.push({ sassLoader });
+    // webpackConfig.plugins.push({ styleLintPlugin });
+
+    this.fs.write('config/webpack.config.dev.js', JSON.stringify(webpackConfig));
+  }
+
   prompting() {
     return this.prompt([
       {
@@ -50,6 +68,7 @@ module.exports = class PinguGenerator extends Generator {
       'node-sass',
       'react-test-renderer',
       'sass-loader',
+      'stylelint-webpack-plugin',
     ];
 
     commandExists('yarn', (err, exists) => {
@@ -70,6 +89,8 @@ module.exports = class PinguGenerator extends Generator {
       return;
     }
 
+    const done = this.async();
+
     const files = [
       'src/default-state.js',
       'src/index.js',
@@ -81,11 +102,20 @@ module.exports = class PinguGenerator extends Generator {
     ];
 
     files.map(file => this.fs.copyTpl(this.templatePath(file), this.destinationPath(`${file}`)));
+
+    this.destinationRoot();
+    const config = require('./config/webpack.config.dev.js');
+    this.log(config);
+    if (this.fs.exists('config/webpack.config.dev.js')) {
+      this._rewriteWebpackConfig();
+      done();
+    }
+
   }
 
   end() {
     if (!this.createFiles && !this.addDeps) {
-      this.log(`🐧  did't do anything, but enjoyed being here.`);
+      this.log(`🐧  didn't do anything, but enjoyed being here.`);
       return;
     }
 
