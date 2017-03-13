@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import {
   BrowserRouter as Router,
@@ -21,16 +22,22 @@ const browserHistory = createBrowserHistory();
 const store = createStoreWithMiddleware(browserHistory, defaultState);
 const history = syncHistoryWithStore(browserHistory, store);
 
-const App = () => <div><h1>Hello World!</h1></div>;
+const App = () => (
+  <div>
+    <h1><FormattedMessage id="app.title" defaultMessage="Hello World!" /></h1>
+  </div>
+);
 const NotFound = () => <div><h1>Not Found</h1></div>;
 
 const router = () => (
   <Provider store={ store }>
     <Router history={ history }>
-      <Switch>
-        <Route exact path="/" component={ App } />
-        <Route component={ NotFound } />
-      </Switch>
+      <IntlProvider locale="en">
+        <Switch>
+          <Route exact path="/" component={ App } />
+          <Route component={ NotFound } />
+        </Switch>
+      </IntlProvider>
     </Router>
   </Provider>
 );
