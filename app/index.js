@@ -3,21 +3,36 @@ const commandExists = require('command-exists');
 
 module.exports = class PinguGenerator extends Generator {
   _rewriteWebpackConfig() {
-    const webpackConfig = this.fs.readJson('config/webpack.config.dev.js');
-
-    const sassLoader = {
-      test: /\.(scss|sass)$/,
-      include: paths.appSrc,
-      loaders: ['style', 'css', 'sass']
+    const webpackPath = this.destinationPath('./config/webpack.config.dev.js');
+    const webpackConfig = require(this.destinationPath('./config/webpack.config.dev.js'));
+    const StyleLintPlugin = require('stylelint-webpack-plugin');
+    const lintOptions = require(this.templatePath('./config/.stylelintrc.json'));
+    const newConf = '';
+    const pinguWebpackConfig = {
+      module: {
+        loaders: [
+          {
+            test: /\.(scss|sass)$/,
+            loaders: ['style', 'css', 'sass'],
+          }
+        ]
+      },
+      plugins: [
+        new StyleLintPlugin(lintOptions),
+      ]
     };
-    // const styleLintPlugin = {
-    //   new require('stylelint-webpack-plugin')()
-    // };
 
-    webpackConfig.loaders.push({ sassLoader });
-    // webpackConfig.plugins.push({ styleLintPlugin });
 
-    this.fs.write('config/webpack.config.dev.js', JSON.stringify(webpackConfig));
+    this.log(pinguWebpackConfig);
+
+    if (webpackConfig) {
+      newConf = merge(webpackConfig, pinguWebpackConfig);
+
+      this.log(newConf);
+
+      this.fs.write(this.destinationPath('./config/webpack.config.dev2.js'), JSON.stringify(newConf));
+    }
+
   }
 
   prompting() {
@@ -68,6 +83,8 @@ module.exports = class PinguGenerator extends Generator {
       'node-sass',
       'react-test-renderer',
       'sass-loader',
+      'css-loader',
+      'style-loader',
       'stylelint-webpack-plugin',
     ];
 
@@ -96,20 +113,15 @@ module.exports = class PinguGenerator extends Generator {
       'src/index.js',
       'src/reducers.js',
       'src/store.js',
-      'src/assets/css/styles.scss',
+      'src/assets/css/',
       'src/sagas/root.js',
       '.eslintrc.json',
     ];
 
     files.map(file => this.fs.copyTpl(this.templatePath(file), this.destinationPath(`${file}`)));
 
-    this.destinationRoot();
-    const config = require('./config/webpack.config.dev.js');
-    this.log(config);
-    if (this.fs.exists('config/webpack.config.dev.js')) {
-      this._rewriteWebpackConfig();
-      done();
-    }
+    done();
+    this._rewriteWebpackConfig();
 
   }
 
