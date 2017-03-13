@@ -37,7 +37,7 @@ module.exports = class PinguGenerator extends Generator {
       'redux',
       'react-intl',
       'react-redux',
-      'react-router-dom@next',
+      'react-router-dom',
       'react-router-redux',
       'redux-saga',
     ];
