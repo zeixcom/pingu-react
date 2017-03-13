@@ -54,9 +54,6 @@ module.exports = class PinguComponentGenerator extends Generator {
 
     let rootSassFileModified = rootSassFile;
 
-    this.log(alreadyExistsRegex);
-    this.log(alreadyExistsMatch);
-
     // We determine if there are already any components included in the .scss file
     if (matchBaseRegex !== null) {
       rootSassFileModified = rootSassFile.replace(baseRegexSass, `@import\n  '../../components/${this.tier}/${dashed}/${dashed}';`);
@@ -68,10 +65,9 @@ module.exports = class PinguComponentGenerator extends Generator {
       } else {
         this.log(`🐧  had a problem adding your new component style to the style scss file. Very sad.`);
       }
-
     }
 
-    this.log('rootSassFileModified', rootSassFileModified);
+    this.fs.write(this.destinationPath('src/assets/css/styles.scss'), rootSassFileModified);
   }
 
   end() {
