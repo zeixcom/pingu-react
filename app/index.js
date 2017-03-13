@@ -76,7 +76,7 @@ module.exports = class PinguGenerator extends Generator {
       'src/index.js',
       'src/reducers.js',
       'src/store.js',
-      'src/assets/css/styles.scss',
+      'src/assets/css/',
       'src/sagas/root.js',
       '.eslintignore',
       '.eslintrc.json',

@@ -1,7 +1,3 @@
-// -----------------------------------------------------------------------------
-//  #FUNCTIONS
-// -----------------------------------------------------------------------------
-
 /**
  * Some nice functions we can use to make our lives easier. Feel free to add as
  * many as you like!
@@ -25,7 +21,7 @@
  * @return {Url}
  */
 @function image($path, $base: $base-url) {
-  @return asset($base, "images/", $path);
+  @return asset($base, 'images/', $path);
 }
 
 /**
@@ -35,7 +31,7 @@
  *  @return {Url}
  */
 @function font($path, $base: $base-url) {
-  @return asset($base, "fonts/", $path);
+  @return asset($base, 'fonts/', $path);
 }
 
 /**
