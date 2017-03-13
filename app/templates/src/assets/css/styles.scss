@@ -1,7 +1,4 @@
-@charset "UTF-8";
-// -----------------------------------------------------------------------------
-// #MAIN.SCSS
-// -----------------------------------------------------------------------------
+@charset 'UTF-8';
 
 /**
  * Here we start to pull everything together into one big stylesheet.
@@ -15,62 +12,54 @@
  * VENDORS.........jQuery UI, Bootstrap, Anzeixer, ...
  */
 
-/*------------------------------------*\
+/*
     #UTILS
-\*------------------------------------*/
-/**
- * Settings, variables and tools.
- */
+    Settings, variables and tools.
+*/
 
 @import
-  "utils/variables",
-  "utils/colors",
-  "utils/functions",
-  "utils/mixins",
-  "utils/fonts",
-  "utils/zindex";
+  'utils/variables',
+  'utils/colors',
+  'utils/functions',
+  'utils/mixins',
+  'utils/fonts',
+  'utils/zindex';
 
 
-/*------------------------------------*\
+/*
     #VENDOR
-\*------------------------------------*/
-/**
- * Contains styles from external libraries and custom plugin styles overrides
- */
+    Contains styles from external libraries and custom plugin styles overrides
+*/
 
 @import
-  "vendor/normalize",
-  "vendor/anzeixer";
+  'vendor/normalize',
+  'vendor/anzeixer';
 
 
-/*------------------------------------*\
+/*
     #BASE
-\*------------------------------------*/
-/**
- * These are base HTML elements, things with no classes on them, e.g. `h1 {}`,
- * `blockquote {}`.
- */
+    These are base HTML elements, things with no classes on them, e.g. `h1 {}`,
+*/
 
 @import
-  "base/base",
-  "base/typography";
+  'base/base',
+  'base/typography';
 
 
-/*------------------------------------*\
+/*
     #LAYOUT
-\*------------------------------------*/
-/**
- * The layout/ folder contains everything that takes part in laying out the site or application.
- * This folder could have stylesheets for the main parts of the site (header, footer, navigation, sidebar…),
- * the grid system or even CSS styles for all the forms.
- */
+
+    The layout/ folder contains everything that takes part in laying out the site or application: em;
+    This folder could have stylesheets for the main parts of the site (header, footer, navigation, sidebar…),
+    the grid system or even CSS styles for all the forms.
+*/
 
 @import
-  "layout/grid";
+  'layout/grid';
 
 
-/*------------------------------------*\
+/*
     #COMPONENTS
-\*------------------------------------*/
+*/
 // @import
-//   "components/any";
+//   'components/any';
