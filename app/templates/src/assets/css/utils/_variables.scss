@@ -1,7 +1,3 @@
-// -----------------------------------------------------------------------------
-// #VARIABLES
-// -----------------------------------------------------------------------------
-
 /**
  * Generic, non-specific variables.
  */
@@ -60,4 +56,4 @@ $spacing-paragraph--tripple: $spacing-unit--double + $spacing-unit--quarter; // 
  *  @example scss - When using a CDN
  *    $base-url: 'http://cdn.example.com/assets/';
  */
-$base-url: "assets/";
+$base-url: 'assets/';

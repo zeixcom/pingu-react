@@ -1,19 +1,15 @@
-// -----------------------------------------------------------------------------
-// #FONTS
-// -----------------------------------------------------------------------------
-
 /**
  * basic font
  */
 $font-size--base: 16px;
-$font-family--base: "Helvetica Neue", Helvetica, sans-serif;
+$font-family--base: 'Helvetica Neue', Helvetica, sans-serif;
 $line-height--base: 32px;
 
 /**
  * Custom fonts are to be defined here
  */
-$font-family--regular: "Helvetica Neue", Helvetica, sans-serif;
-$font-family--medium: "Times New Roman", Times, sans-serif;
+$font-family--regular: 'Helvetica Neue', Helvetica, sans-serif;
+$font-family--medium: 'Times New Roman', Times, sans-serif;
 
 /**
  * Font Sizes

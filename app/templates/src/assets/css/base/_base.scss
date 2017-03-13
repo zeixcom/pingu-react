@@ -1,7 +1,3 @@
-// -----------------------------------------------------------------------------
-// This file contains very basic styles.
-// -----------------------------------------------------------------------------
-
 /**
  * Set up a decent box model on the root element
  */
@@ -9,7 +5,7 @@ html {
   box-sizing: border-box;
 }
 
-/**
+/*
  * Make all elements from the DOM inherit from the parent box-sizing
  * Since `*` has a specificity of 0, it does not override the `html` value
  * making all elements inheriting from the root box-sizing value
@@ -30,28 +26,4 @@ body {
 
   -moz-osx-font-smoothing: grayscale; // better font rendering on mac firefox
   -webkit-font-smoothing: antialiased; // better font rendering on webkit browsers
-}
-
-/**
- * Basic styles for Links
- */
-a {
-  @include on-event {
-    color: $link-hover-color;
-  }
-
-  color: $link-color;
-  text-decoration: none;
-}
-
-h1 {
-  margin: $spacing-paragraph--double 0;
-}
-
-h2 {
-  margin-bottom: $spacing-paragraph--double;
-}
-
-h3 {
-  margin-bottom: $spacing-paragraph--base;
 }
