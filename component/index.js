@@ -14,10 +14,17 @@ module.exports = class PinguComponentGenerator extends Generator {
         type: 'input',
         name: 'name',
         message: 'What shall the component be called?',
+      },
+      {
+        type: 'confirm',
+        name: 'storybook',
+        message: 'Should storybook stories be created?',
+        default: false,
       }
     ]).then(answers => {
       this.tier = answers.tier;
       this.name = answers.name;
+      this.storybook = answers.storybook;
     });
   }
 
@@ -45,6 +52,38 @@ module.exports = class PinguComponentGenerator extends Generator {
       this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.test.js`),
       { proper: changeCase.pascal(this.name) }
     );
+
+
+    const rootSassFile = this.fs.read(this.destinationPath('src/assets/css/styles.scss'));
+    const baseRegexSass = new RegExp(`(\\/\\/.+\\@import)\\n\\/\\/.+\\'components\\/any';`, 'g');
+    const matchBaseRegex = rootSassFile.match(baseRegexSass);
+    const alreadyExistsRegex = new RegExp(`\\'..\\/..\\/components.+\\';`, 'g');
+    const alreadyExistsMatch = rootSassFile.match(alreadyExistsRegex);
+
+    let rootSassFileModified = rootSassFile;
+
+    // We determine if there are already any components included in the .scss file
+    if (matchBaseRegex !== null) {
+      rootSassFileModified = rootSassFile.replace(baseRegexSass, `@import\n  '../../components/${this.tier}/${dashed}/${dashed}';`);
+    } else {
+      // Check if it is even possible to do that
+      if (alreadyExistsMatch.length >= 1) {
+        rootSassFileModified = rootSassFile.replace(alreadyExistsRegex,
+        `${alreadyExistsMatch[0].replace(';', ',')}\n  '../../components/${this.tier}/${dashed}/${dashed}';`);
+      } else {
+        this.log(`🐧  had a problem adding your new component style to the style scss file. Very sad.`);
+      }
+    }
+
+    this.fs.write(this.destinationPath('src/assets/css/styles.scss'), rootSassFileModified);
+
+    if (this.storybook) {
+      this.fs.copyTpl(
+        this.templatePath('component.stories.js'),
+        this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.stories.js`),
+        { proper: changeCase.pascal(this.name) }
+      );
+    }
   }
 
   end() {
