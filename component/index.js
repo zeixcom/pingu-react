@@ -14,10 +14,17 @@ module.exports = class PinguComponentGenerator extends Generator {
         type: 'input',
         name: 'name',
         message: 'What shall the component be called?',
+      },
+      {
+        type: 'confirm',
+        name: 'storybook',
+        message: 'Should storybook stories be created?',
+        default: false,
       }
     ]).then(answers => {
       this.tier = answers.tier;
       this.name = answers.name;
+      this.storybook = answers.storybook;
     });
   }
 
@@ -46,6 +53,7 @@ module.exports = class PinguComponentGenerator extends Generator {
       { proper: changeCase.pascal(this.name) }
     );
 
+
     const rootSassFile = this.fs.read(this.destinationPath('src/assets/css/styles.scss'));
     const baseRegexSass = new RegExp(`(\\/\\/.+\\@import)\\n\\/\\/.+\\'components\\/any';`, 'g');
     const matchBaseRegex = rootSassFile.match(baseRegexSass);
@@ -68,6 +76,14 @@ module.exports = class PinguComponentGenerator extends Generator {
     }
 
     this.fs.write(this.destinationPath('src/assets/css/styles.scss'), rootSassFileModified);
+
+    if (this.storybook) {
+      this.fs.copyTpl(
+        this.templatePath('component.stories.js'),
+        this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.stories.js`),
+        { proper: changeCase.pascal(this.name) }
+      );
+    }
   }
 
   end() {
