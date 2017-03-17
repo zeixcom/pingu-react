@@ -1,6 +1,11 @@
 const Generator = require('yeoman-generator');
 const changeCase = require('change-case');
 
+const babylon = require('babylon');
+const traverse = require('babel-traverse').default;
+const t = require('babel-types');
+const generate = require('babel-generator').default;
+
 module.exports = class PinguComponentGenerator extends Generator {
   prompting() {
     return this.prompt([
@@ -28,31 +33,8 @@ module.exports = class PinguComponentGenerator extends Generator {
     });
   }
 
-  writing() {
+  _updateSassImports() {
     const dashed = changeCase.param(this.name);
-
-    this.fs.copyTpl(
-      this.templatePath('component.scss'),
-      this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.scss`),
-      { name: changeCase.param(dashed) }
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('index.js'),
-      this.destinationPath(`src/components/${this.tier}/${dashed}/index.js`),
-      {
-        original: this.name,
-        proper: changeCase.pascal(this.name),
-        dashed,
-      }
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('component.test.js'),
-      this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.test.js`),
-      { proper: changeCase.pascal(this.name) }
-    );
-
 
     const rootSassFile = this.fs.read(this.destinationPath('src/assets/css/styles.scss'));
     const baseRegexSass = new RegExp(`(\\/\\/.+\\@import)\\n\\/\\/.+\\'components\\/any';`, 'g');
@@ -76,6 +58,71 @@ module.exports = class PinguComponentGenerator extends Generator {
     }
 
     this.fs.write(this.destinationPath('src/assets/css/styles.scss'), rootSassFileModified);
+  }
+
+  _updateBarrel() {
+    const dashed = changeCase.param(this.name);
+    const barrel = this.fs.read(this.destinationPath(`src/components/${this.tier}/index.js`));
+    const ast = babylon.parse(barrel, {
+      sourceType: 'module',
+    });
+
+    let numberOfDeclarations = 0;
+    let currentIndex = 0;
+
+    traverse(ast, {
+      Program(path) {
+        numberOfDeclarations = path.node.body.length;
+      },
+      ExportAllDeclaration(path) {
+        if (numberOfDeclarations == ++currentIndex) {
+          path.insertAfter(t.exportAllDeclaration(
+            t.stringLiteral(`./${dashed}`)
+          ));
+        }
+      }
+    });
+
+    const { code } = generate(ast, { quotes: 'single' }, barrel);
+    this.fs.write(this.destinationPath(`src/components/${this.tier}/index.js`), code);
+  }
+
+  writing() {
+    const dashed = changeCase.param(this.name);
+
+    this.fs.copyTpl(
+      this.templatePath('component.scss'),
+      this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.scss`),
+      { name: changeCase.param(this.name) }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('index.js'),
+      this.destinationPath(`src/components/${this.tier}/${dashed}/index.js`),
+      {
+        original: this.name,
+        proper: changeCase.pascal(this.name),
+        dashed,
+      }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('component.test.js'),
+      this.destinationPath(`src/components/${this.tier}/${dashed}/${dashed}.test.js`),
+      { proper: changeCase.pascal(this.name) }
+    );
+
+    if (this.fs.exists(this.destinationPath(`src/components/${this.tier}/index.js`))) {
+      this._updateBarrel();
+    } else {
+      this.fs.copyTpl(
+        this.templatePath('barrel.js'),
+        this.destinationPath(`src/components/${this.tier}/index.js`),
+        { dashed }
+      );
+    }
+
+    this._updateSassImports();
 
     if (this.storybook) {
       this.fs.copyTpl(
