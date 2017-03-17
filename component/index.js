@@ -8,7 +8,7 @@ module.exports = class PinguComponentGenerator extends Generator {
         type: 'list',
         name: 'tier',
         message: 'Which category shall the component belong to?',
-        choices: ['atoms', 'molecules', 'organisms'],
+        choices: ['atoms', 'molecules', 'organisms', 'templates', 'pages'],
       },
       {
         type: 'input',
