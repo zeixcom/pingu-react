@@ -1,0 +1,71 @@
+/*
+  font types
+  will be extended
+*/
+/* stylelint-disable */
+// disable stylelint for better readability
+$typo: (
+  desktop: (
+    brand: (
+      font-size: 1.2778rem,     // 23px
+      line-height: 1.2609       // 27px
+    ),
+    title-giant: (
+      font-size: 2rem,          // 36px
+      font-weight: 700,
+      line-height: 1.167        // 42px
+    ),
+    title-huge: (
+      font-size: 1.6667rem,     // 30px
+      font-weight: 700,
+      line-height: 1.133        // 34px
+    ),
+    title-large: (
+      font-size: 1.3333rem,     // 24px
+      font-weight: 700,
+      line-height: 1.125        // 27px
+    ),
+    title-default: (
+      font-size: 1rem,          // 18px
+      font-weight: 700,
+      line-height: 1.389        // 25px
+    ),
+    title-small: (
+      font-size: 0.8333rem,     // 15px
+      font-weight: 700,
+      line-height: 1.3334       // 20px
+    ),
+    dateline-tiny: (
+      font-size: 0.722rem,      // 13px
+      font-weight: 400,
+      line-height: 1.231        // 16px
+    ),
+    paragraph-default: (
+      font-size: 1rem,          // 18px
+      font-weight: 400,
+      line-height: 1.389        // 25px
+    ),
+    paragraph-small: (
+      font-size: 0.833rem,      // 15px
+      font-weight: 400,
+      line-height: 1.333        // 20px
+    ),
+    label-micro: (
+      font-size: 0.611rem,      // 11px
+      font-weight: 700,
+      line-height: 1.275        // 14px
+    ),
+    button: (
+      font-size: 0.722rem,      // 13px
+      font-weight: 700,
+      line-height: 1.461        // 19px
+    ),
+    number: (
+      font-family: $font-family--numbers
+    ),
+    default: (
+      font-size: 1rem
+    )
+  )
+);
+/* stylelint-enable */

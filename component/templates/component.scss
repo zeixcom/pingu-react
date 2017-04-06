@@ -1,9 +1,1 @@
 $name: '<%= name %>';
-
-@include settings((
-  background: #bbcbbc,
-));
-
-.#{$name} {
-  background: setting(background);
-}

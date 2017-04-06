@@ -51,7 +51,9 @@ module.exports = class PinguGenerator extends Generator {
       'node-sass',
       'react-test-renderer',
       'sass-loader',
-      'dialog-settings',
+      'dialog-size',
+      'dialog-typography',
+      
     ];
 
     commandExists('yarn', (err, exists) => {

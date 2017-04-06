@@ -83,7 +83,10 @@ module.exports = class PinguComponentGenerator extends Generator {
       }
     });
 
-    const { code } = generate(ast, { quotes: 'single' }, barrel);
+    let { code } = generate(ast, { quotes: 'single' }, barrel);
+
+    code =  `${code}\n`;
+
     this.fs.write(this.destinationPath(`src/components/${this.tier}/index.js`), code);
   }
 

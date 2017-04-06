@@ -176,3 +176,34 @@
   background-position: $pos-top $pos-right, 0 0;
   background-repeat: $repeat, no-repeat;
 }
+
+/**
+ * Some nice mixins we can use to make our lives easier. Feel free to add as
+ * many as you like!
+ */
+@mixin visuallyhidden() {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+@mixin visuallyhiddenReset() {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+@mixin visuallyhiddenFocusable() {
+  @include visuallyhidden;
+
+  &:focus,
+  &:active {
+    @include visuallyhiddenReset;
+  }
+}

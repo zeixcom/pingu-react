@@ -1,0 +1,21 @@
+/* breakpoints map */
+$breakpoints: (
+  tiny: 'max-width: 1600px',
+  narrow: 'max-width: 1920px',
+  wide: 'min-width: 1921px'
+);
+
+/*
+  for using the our breakpoints
+
+  usage
+
+  @include breakpoint( wide ) {
+    color: #fff;
+  }
+*/
+@mixin breakpoint( $name ) {
+  @media ( #{map-get( $breakpoints, $name )} ) {
+    @content;
+  }
+}

@@ -1,0 +1,52 @@
+$transityTimes: (
+  default: 250ms,
+);
+
+$transityEasings: (
+  default: ease-in-out,
+);
+
+// Usage:   @include transity((width, height), (quick));;
+// Output:  transition(width 125ms ease-in-out 0ms, height 250ms ease-in-out 0ms);;
+//
+// Pass in any number of transitions
+@mixin transity($properties, $duration: (), $timing: (), $delay: ()) {
+  $unfoldedTransitions: ();
+
+  @for $i from 1 through length($properties) {
+    $unfoldedTransitions: append($unfoldedTransitions, transity-unfold(nth($properties, $i), transity-get($duration, $i), transity-get($timing, $i), transity-get($delay, $i)), comma);
+  }
+
+  transition: $unfoldedTransitions;
+}
+
+@function transity-get($list, $i) {
+  @if $i > length($list) {
+    @return false;
+  }
+
+  @return nth($list, $i);
+}
+@function transity-duration($key) {
+  @return map-get($transityTimes, $key);
+}
+@function transity-easing($key) {
+  @return map-get($transityEasings, $key);
+}
+@function transity-unfold($property, $duration, $easing, $delay) {
+  @if not($duration) {
+    $duration: default;
+  }
+  @if not($easing) {
+    $easing: default;
+  }
+  @if not($delay) {
+    $delay: immediate;
+  }
+
+  $durationValue: transity-duration($duration);
+  $easingValue: transity-easing($easing);
+  $delayValue: transity-duration($delay);
+
+  @return ($property $durationValue $easingValue $delayValue);
+}
