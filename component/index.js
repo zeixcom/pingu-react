@@ -85,6 +85,7 @@ module.exports = class PinguComponentGenerator extends Generator {
 
     let { code } = generate(ast, { quotes: 'single' }, barrel);
 
+    // Add newline at end of file for 
     code =  `${code}\n`;
 
     this.fs.write(this.destinationPath(`src/components/${this.tier}/index.js`), code);
